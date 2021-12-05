@@ -1,1 +1,1 @@
-# Amazeball-Wishing-Center-
+# amazeball-wishing-center

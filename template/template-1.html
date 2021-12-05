@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../style.css"/>
+    <title>amazeball wishing center</title>
+  </head>
+
+  <body>
+    <nav class="nav">
+      <div class="name">
+        <h1>Amazeball Wishing Center</h1>
+      </div>
+      <div class="navlist">
+        <ul>
+          <a href="">
+            <li>Home</li>
+          </a>
+          <a href="#abut">
+            <li>About Us</li>
+          </a>
+          <a href="">
+            <li>Templates</li>
+          </a>
+          <a href="">
+            <li>Teams</li>
+          </a>
+        </ul>
+      </div>
+      <div></div>
+    </nav>
+<div class="t-contaniner">
+    <div id="image-container">
+      <canvas width="425" height="425" class="circle-wrap"></canvas>
+    </div>
+    <div class="template">
+        <img src="../images/template-1.png">
+    </div>
+    <div class = "inputs">
+             <input type="file" id="file" />
+            <br/>
+            <br/>
+            <input id="topLineText" type="text" placeholder="Age"><br/>
+            <br/>
+           
+            <button id="saveBtn">Save</button>
+          </div>
+    </div>
+    
+  </body>
+  <script>
+    var wrps = document.querySelectorAll('.circle-wrap'), 
+        toCircle = function(a) {
+          var style, w, h, img;
+          for(var i = 0; i < a.length; i++) {
+            style = window.getComputedStyle(a[i]);
+            w = parseInt(style.width.split('px')[0],10);
+            h = parseInt(style.height.split('px')[0],10);
+            /* part that makes the wrapper circular */
+            a[i].style.width = a[i].style.height = Math.min(w,h)+'px';
+            /* part that takes care of centering imgs */
+            img = a[i].querySelector('img');
+            if(w > h)
+              img.style.marginLeft = ((h - w)/2) + 'px';
+            else if(w < h)
+              img.style.marginTop = ((w - h)/2) + 'px';
+          }
+        };
+    
+    toCircle(wrps);
+    
+    // circle-wrap
+    
+    
+        function textChangeListener (evt) {
+          var id = evt.target.id;
+          var text = evt.target.value;
+          
+          if (id == "topLineText") {
+            window.topLineText = text;
+          } else {
+            window.bottomLineText = text;
+          }
+          
+          redrawMeme(window.imageSrc, window.topLineText, window.bottomLineText);
+        }
+        //------
+        function redrawMeme(image, topLine, bottomLine) {
+          // Get Canvas2DContext
+          var canvas = document.querySelector('canvas');
+          var ctx = canvas.getContext("2d");
+          if (image != null)
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+          
+           // clear previous
+          ctx.clearRect (0, 0,  canvas.width, canvas.height);
+          
+          if (image != null)
+                    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+          
+          // Text attributes
+          ctx.font = '30pt Impact';
+          ctx.textAlign = 'center';
+          ctx.strokeStyle = 'black';
+          ctx.lineWidth = 3;
+          ctx.fillStyle = 'white';
+          
+          if (topLine != null) {
+            ctx.fillText(topLine, canvas.width / 2, 40);
+            ctx.strokeText(topLine, canvas.width / 2, 40);
+          }
+          
+          if (bottomLine != null) {
+            ctx.fillText(bottomLine, canvas.width / 2, canvas.height - 20);
+            ctx.strokeText(bottomLine, canvas.width / 2, canvas.height - 20);
+          }
+        }
+        
+        function saveFile() {
+          window.open(document.querySelector('canvas').toDataURL());
+        }
+        //--------
+    
+        function handleFileSelect(evt) {
+          //make canvas
+          var canvasWidth = 500;
+          var canvasHeight = 500;
+          var file = evt.target.files[0];
+          
+          //image upload
+          var reader = new FileReader();
+          reader.onload = function(fileObject) {
+            var data = fileObject.target.result;
+            
+            // Create an image object
+            var image = new Image();
+            image.onload = function() {
+              
+              window.imageSrc = this;
+              redrawMeme(window.imageSrc, null, null);
+            }
+            
+            // Set image data to background image.
+            image.src = data;
+            console.log(fileObject.target.result);
+          };
+          reader.readAsDataURL(file)
+        }
+        window.imageSRC = null;
+        window.topLineText = "";
+        window.bottomLineText = "";
+    window.imageSRC = null;
+            window.topLineText = null;
+            window.bottomLineText = null;
+    
+            var file = document.querySelector("#file");
+            file.onchange = handleFileSelect;
+    
+        var input1 = document.getElementById('topLineText');
+        var input2 = document.getElementById('bottomLineText');
+        input1.oninput = textChangeListener;
+        input2.oninput = textChangeListener;
+        document.getElementById('file').addEventListener('change', handleFileSelect, false);
+        document.querySelector('button').addEventListener('click', saveFile, false);
+    
+        // insert top and bottom text 
+    </script>
+</html>
