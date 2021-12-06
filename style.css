@@ -18,7 +18,9 @@ html{
 .nav {
     display: flex;
 }
-
+.logo-img{
+  width: 180px;
+}
 .navlist ul li {
     color: white;
     list-style: none;
@@ -27,7 +29,9 @@ html{
     position: relative;
     margin: 3px;
     padding: 32px;
-    left: 489px;
+    right: 0;
+    /* padding-left: ; */
+    left: 700px;
     font-size: 18px;
     top: -1px;
 }
@@ -45,8 +49,8 @@ html{
     width: 75%;
 }
 .name {
-    padding: 32px;
-    color: rgb(51, 72, 77);
+    /* padding: 32px; */
+    /* color: rgb(51, 72, 77); */
 }
 .container{
     display: flex;
